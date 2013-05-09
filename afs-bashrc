@@ -1,0 +1,22 @@
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -la'
+alias cls='clear; ls'
+alias emacs='emacs -nw'
+alias electric='ssh kasaharas@electricabac.us'
+alias mordor='ssh kasaharas@209.141.35.232'
+alias updick='/usr/bin/uptime | perl -ne "/(\d+) d/;print 8,q(=)x(\$1 * 10),\"D\n\""'
+alias git="SSH_ASKPASS='' git"
+
+export EDITOR="emacs"
+
+PS1='\[\e[0;36m\]\h\[\e[m\]:\[\e[0;34m\]\w\[\e[0;36m\]$\[\e[m\] ';
+
+LD_LIBRARY_PATH=".:$LD_LIBRARY_PATh:$HOME/local/lib"
+
+PATH="$PATH:/afs/andrew/course/15/122/bin/:/afs/cs.cmu.edu/academic/class/15440-f11/go/bin:$HOME/local/bin/"
+
+export GOROOT="/usr/local/lib/go"
+
+export GOPATH="$HOME/private/15440/P3/rns/go"
+

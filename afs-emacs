@@ -1,0 +1,88 @@
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(linum ((t (:inherit (shadow default) :foreground "red")))))
+;; load path
+(setq load-path (cons "~/.emacs.d/include" load-path))
+
+(set-face-foreground 'font-lock-comment-face "blue")
+(set-face-foreground 'font-lock-comment-delimiter-face "blue")
+
+;; line & col numbers
+(line-number-mode 1)
+(column-number-mode 1)
+
+;; coloring in shell
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; turn off menubar & toolbar
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;; highlight current line always
+;;(global-hl-line-mode t)
+;;(set-face-background 'hl-line "midnightblue")
+
+(require 'linum nil 'noerror)
+(when (featurep 'linum)
+  (global-linum-mode 1))
+
+;; sml stuff
+(autoload 'sml-mode  "sml-mode" "Major mode for editing SML." t)
+(setq load-path (cons "/afs/andrew/course/15/212sp/lib/elisp" load-path))
+(setq sml-program-name "/afs/andrew/course/15/212sp/bin/sml")
+(setq auto-mode-alist
+      (cons '("\.sml$" . sml-mode)
+            (cons '("\.sig$" . sml-mode)
+                  auto-mode-alist)))
+;; sml syntax coloring
+(setq sml-load-hook
+      '(lambda() "Fontify SML." (require 'sml-font)))
+
+;; lua stuff
+(setq auto-mode-alist (cons '("\\.lua$" . lua-mode) auto-mode-alist))
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-hook 'lua-mode-hook 'turn-on-font-lock)
+
+;; c0 stuff
+(setq c0-root "/afs/andrew.cmu.edu/usr23/sylviah/.emacs.d/include/")
+(load (concat c0-root "c0-mode/c0.el"))
+
+;; go stuff
+(add-to-list 'load-path "/afs/andrew.cmu.edu/usr23/sylviah/.emacs.d/include/" t)
+(require 'go-mode-load)
+
+;; show highlighting
+(setq transient-mark-mode t)
+(set-face-background 'region "gray22") ; Set region background color
+
+;; soft tabs
+(setq-default indent-tabs-mode nil)
+
+;; # of spaces per tab
+(setq-default tab-width 4)
+
+;; highlight any characters after 80 char limit
+(require 'whitespace)
+(setq whitespace-style '(face lines-tail trailing))
+(global-whitespace-mode t)
+
+;; remove any trailing whitespace after save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; unbind ctrl-t for tmux
+(global-unset-key "\C-t")
+
+;; hilight keywords such as TODO or FIXME
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
